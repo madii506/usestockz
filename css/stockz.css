@@ -437,9 +437,11 @@ textarea.inp { height: 84px; padding: 12px 14px; resize: none; line-height: 1.45
 
 /* ================================================= round 2: the bigger, smoother home */
 /* intro: dots gather into the mark, then fall into the page */
-#intro { display: none; position: fixed; inset: 0; z-index: 200; background: #050605; transition: opacity .6s var(--ease); }
+#intro { display: none; position: fixed; inset: 0; z-index: 200; background: #050605; transition: opacity .45s var(--ease); }
+#intro.intro-on { display: block; }
+#intro.intro-thru { pointer-events: none; }
 #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-#intro.out { opacity: 0; pointer-events: none; }
+#intro.intro-out { opacity: 0; pointer-events: none; }
 html.intro #intro { display: block; }
 html.intro, html.intro body { overflow: hidden; }
 html.intro .h1 .ln > span, html.intro .lede, html.intro .cta, html.intro .capill { animation-play-state: paused; }
