@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STOCKZ</title>
+<meta name="description" content="A private launchpad that pays any stock account. Launch a coin for any Solana wallet: its creator fees buy the stock you pick and land in that wallet's private balance, encrypted on Solana.">
+<meta name="theme-color" content="#070807">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/fav-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/fav-64.png">
+<link rel="apple-touch-icon" href="/img/fav-180.png">
+<meta property="og:title" content="STOCKZ">
+<meta property="og:url" content="https://usestockz.vercel.app/">
+<meta property="og:description" content="A private launchpad that pays any stock account.">
+<meta property="og:image" content="https://usestockz.vercel.app/img/og.jpg">
+<meta name="twitter:image" content="https://usestockz.vercel.app/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/inter-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/text-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/stockz.css?v=1">
+<script src="/js/pre.js?v=1"></script>
+<script src="/vendor/lenis.min.js" defer></script>
+<script type="module" src="/js/home.js?v=1"></script>
+</head>
+<body class="home">
+<div id="intro" aria-hidden="true"><canvas id="introCv"></canvas></div>
+<div id="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="prog" id="prog" aria-hidden="true"></div>
+
+<aside class="side" id="side">
+  <a class="logo" href="/"><img src="/img/fav-64.png" alt="">Stockz</a>
+  <nav class="nav" aria-label="Site">
+    <a href="/" data-nav="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="/#stocks" data-nav="stocks"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="9" width="3" height="7" rx="1"/><rect x="11" y="5" width="3" height="11" rx="1"/><rect x="17" y="11" width="3" height="5" rx="1"/></svg>Stocks</a>
+    <a href="/app#launch" data-nav="launch"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></svg>Launch</a>
+    <a href="/#xray" data-nav="xray"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Wallet X-ray</a>
+    <a href="/#calc" data-nav="calc"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg>Calculator</a>
+    <a href="/app#coins" data-nav="coins"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="6"/><path d="M15.4 10.2A6 6 0 1 1 10.2 15.4"/></svg>Coins</a>
+    <a href="/#privacy" data-nav="privacy"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Privacy</a>
+    <a href="/docs" data-nav="docs"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>Docs</a>
+  </nav>
+  <div class="side-foot">
+    <span class="status"><i></i>pre-launch</span>
+    <div class="built">Private payouts on<b>Umbra · Arcium</b></div>
+  </div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<header class="top" id="top">
+  <button class="menu" id="menuBtn" aria-label="Open the menu"><span></span></button>
+  <div class="search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Search a stock or paste a wallet" autocomplete="off" spellcheck="false" aria-label="Search a stock or paste a wallet">
+    <kbd>/</kbd>
+    <div class="sres" id="qres" role="listbox"></div>
+  </div>
+  <div class="top-r">
+    <a class="pill" href="#ca" id="caPill"><img src="/img/fav-64.png" alt="">$STOCKZ</a>
+    <a class="btn g sm lnch mag" href="/app#launch">Launch</a>
+    <button class="btn o sm cw" id="connect" type="button">Connect wallet</button>
+  </div>
+</header>
+
+<main class="main" id="main">
+  <!-- hero -->
+  <section class="hero" id="hero">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="hero-in">
+      <span class="kick"><i></i>Private payouts on <b>Umbra</b> · <b>Arcium</b></span>
+      <h1 class="h1"><span class="ln"><span>A private launchpad</span></span><span class="ln"><span>that pays any <em>stock account</em></span></span></h1>
+      <p class="lede">Launch a coin for any Solana wallet. Its creator fees buy the stock you pick, <b>NVDA to SPY</b>, and land in that wallet's private balance, encrypted on Solana.</p>
+      <div class="cta">
+        <a class="btn w lg mag" href="/app#launch">Launch a coin <span class="ar">→</span></a>
+        <a class="btn o lg mag" href="#privacy">What stays private</a>
+      </div>
+      <div class="capill" id="ca">
+        <span class="tk"><img src="/img/fav-64.png" alt="">$STOCKZ</span>
+        <code id="caTxt">CA soon</code>
+        <button class="chip" id="caCopy" type="button" aria-disabled="true">Copy</button>
+        <a class="chip g" id="caBuy" href="https://pump.fun" target="_blank" rel="noopener" aria-disabled="true">Buy</a>
+        <a class="chip" id="caChart" href="https://dexscreener.com/solana" target="_blank" rel="noopener" aria-disabled="true">Chart</a>
+        <span class="where">Launching on pump.fun</span>
+      </div>
+    </div>
+    <div class="hero-foot" aria-hidden="true"><span class="a"><i></i>Stocks bought with fees</span><span class="b"><i></i>Encrypted on Solana</span></div>
+  </section>
+
+  <!-- live tape -->
+  <div class="tape" aria-label="Live stock prices"><div class="tape-track" id="tape"></div></div>
+
+  <div class="stats" id="stats">
+    <div class="st rv"><b class="num" data-count="mcap">$0T</b><span>of companies a coin can pay in</span></div>
+    <div class="st rv d1"><b class="num" data-count="12">0</b><span>stocks and ETFs, tokenized on Solana</span></div>
+    <div class="st rv d2"><b class="num">1h</b><span>from trading fees to stock</span></div>
+    <div class="st rv d3"><b class="num" data-count="3" data-suf=" of 3">0</b><span>sender, receiver, amount: sealed</span></div>
+  </div>
+
+  <!-- manifesto -->
+  <section class="mani" id="mani" aria-label="Why Stockz">
+    <div class="mani-pin">
+      <p class="mani-txt" id="maniTxt">Every trade on a coin pays a fee. On most launchpads it goes to the dev, in SOL, where everyone can watch it. On Stockz that fee buys <span class="g">a real stock</span>, gets <span class="g">sealed on Solana</span>, and lands in the account you chose. No public trail. Just <span class="g">a balance only they can read.</span></p>
+      <span class="mani-k">Keep scrolling</span>
+    </div>
+  </section>
+
+  <!-- stocks: the reel -->
+  <section class="reel" id="stocks">
+    <div class="reel-pin" id="reelPin">
+      <div class="wrap reel-head">
+        <div>
+          <p class="ey">01 · Pay in real stocks</p>
+          <h2 class="h2 split-words">Every coin pays in <em>a stock.</em></h2>
+          <p class="sub rv">Pick one when you launch. Its creator fees buy that stock, tokenized on Solana, at the live price.</p>
+        </div>
+        <span class="live" id="liveTag"><i></i><span>Live from Jupiter</span></span>
+      </div>
+      <div class="reel-track" id="reel"></div>
+      <div class="reel-bar"><i id="reelBar"></i></div>
+    </div>
+  </section>
+
+  <!-- the story -->
+  <section class="story" id="how" aria-label="How Stockz pays an account">
+    <div class="story-pin">
+      <div class="story-txt">
+        <p class="ey">02 · How it pays</p>
+        <div class="steps" id="steps">
+          <div class="step on"><span class="n">01 / 05</span><h3>Launch a coin for any wallet.</h3><p>Paste the wallet that gets paid, pick its stock, name the coin. A fresh coin wallet creates it on pump.fun, so your own wallet never shows up as the creator.</p></div>
+          <div class="step"><span class="n">02 / 05</span><h3>Every trade pays a fee.</h3><p>Every buy and sell on the coin pays pump.fun's creator fee. On Stockz, that fee belongs to the account you launched it for.</p></div>
+          <div class="step"><span class="n">03 / 05</span><h3>Fees buy the stock.</h3><p>Every hour, the coin's fees are swapped into its stock at the live price, routed by Jupiter. SOL in, NVDA out.</p></div>
+          <div class="step"><span class="n">04 / 05</span><h3>Sealed on the way.</h3><p>The stock moves through Umbra, on Arcium. The sender, the receiver and the amount are encrypted on Solana. Anyone can see that something moved. Nobody can see what, or how much.</p></div>
+          <div class="step"><span class="n">05 / 05</span><h3>The account sees its stocks.</h3><p>It waits in that wallet's private balance. Only that wallet can see it, hold it or move it.</p></div>
+        </div>
+        <div class="rail" id="rail"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="story-viz">
+        <canvas id="storyCv" aria-hidden="true"></canvas>
+        <span class="viz-tag" id="vizTag">pump.fun · new coin</span>
+        <div class="hud">
+          <div><span>Creator fees</span><b class="num" id="hudFee">0.000 SOL</b></div>
+          <div><span>Stock bought</span><b class="num" id="hudStock">0.0000 NVDA</b></div>
+          <div><span>On Solana</span><b class="num" id="hudSeen">public</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- the band: big type that runs with your scroll -->
+  <div class="band" id="band" aria-hidden="true">
+    <div class="band-row"><span>Paid in stocks</span><i>✦</i><span class="o">Sealed on Solana</span><i>✦</i><span>Every hour</span><i>✦</i><span class="o">Any account</span><i>✦</i></div>
+    <div class="band-row rev"></div>
+  </div>
+
+  <!-- who will you pay -->
+  <section class="sec" id="uses">
+    <div class="wrap">
+      <div class="head2"><div><p class="ey">03 · Who will you pay?</p><h2 class="h2 split-words">One coin. <em>Any account.</em></h2><p class="sub rv">A stock account is just a wallet. Here's who people point coins at.</p></div></div>
+      <div class="uses">
+        <div class="use rv"><canvas data-art="31" aria-hidden="true"></canvas><span class="tag">A creator</span><b>Pay the people you watch.</b><p>Launch a coin for a creator's wallet and its trading buys them NVDA every hour.</p><a class="btn o sm" href="/app?stock=NVDA#launch" data-stock="NVDA">Launch for them <span class="ar">→</span></a></div>
+        <div class="use rv d1"><canvas data-art="47" aria-hidden="true"></canvas><span class="tag">A cause</span><b>Fund something that lasts.</b><p>Point a coin at a cause's wallet and let every trade buy it a slice of the S&amp;P 500.</p><a class="btn o sm" href="/app?stock=SPY#launch" data-stock="SPY">Launch for a cause <span class="ar">→</span></a></div>
+        <div class="use rv d2"><canvas data-art="53" aria-hidden="true"></canvas><span class="tag">Yourself</span><b>Stack quietly.</b><p>Launch for your own wallet and build a TSLA position nobody can watch you build.</p><a class="btn o sm" href="/app?stock=TSLA#launch" data-stock="TSLA">Launch for me <span class="ar">→</span></a></div>
+        <div class="use rv d3"><canvas data-art="61" aria-hidden="true"></canvas><span class="tag">A friend</span><b>A gift that keeps buying.</b><p>Give a friend a coin that pays them in gold for as long as it trades.</p><a class="btn o sm" href="/app?stock=GLD#launch" data-stock="GLD">Launch a gift <span class="ar">→</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- privacy -->
+  <section class="sec alt" id="privacy">
+    <div class="wrap">
+      <p class="ey">04 · What stays private</p>
+      <h2 class="h2 split-words">Solana sees dots. <em>The account sees its stocks.</em></h2>
+      <p class="sub rv">Drag the line. On the left, what anyone reading Solana gets. On the right, what the wallet that was paid sees.</p>
+      <div class="reveal rv" id="reveal" style="margin-top:40px">
+        <div class="rv-pane rv-pub">
+          <span class="rv-label">● What Solana shows</span>
+          <div class="rv-grid">
+            <div class="rv-row"><span>From</span><b class="hx" data-scr="44">encrypted</b></div>
+            <div class="rv-row"><span>To</span><b class="hx" data-scr="44">encrypted</b></div>
+            <div class="rv-row"><span>Asset</span><b class="hx" data-scr="24">encrypted</b></div>
+            <div class="rv-row"><span>Amount</span><b class="hx" data-scr="18">encrypted</b></div>
+          </div>
+          <div class="rv-big"><div><b class="num hx" data-scr="10">··········</b><span>a payment happened. That's all.</span></div></div>
+        </div>
+        <div class="rv-pane rv-priv">
+          <span class="rv-label">● What the account sees</span>
+          <div class="rv-grid">
+            <div class="rv-row"><span>From</span><b>Fees of your coin</b></div>
+            <div class="rv-row"><span>To</span><b>Your private balance</b></div>
+            <div class="rv-row"><span>Asset</span><b id="rvAsset">NVDA · NVIDIA</b></div>
+            <div class="rv-row"><span>Amount</span><b class="num" id="rvAmt">0.3418 shares</b></div>
+          </div>
+          <div class="rv-big"><img class="tlg" id="rvLogo" alt=""><div><b class="num" id="rvVal">$49.95</b><span>worth at the live price, readable by you only</span></div></div>
+        </div>
+        <div class="rv-handle" id="rvHandle"><button type="button" aria-label="Drag to compare"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></button></div>
+      </div>
+      <div class="rv-note rv"><span><b>Encrypted:</b> sender, receiver, amount.</span><span><b>Public:</b> that a payment happened, and the coin's trades on pump.fun.</span></div>
+
+      <div class="tech" style="margin-top:70px">
+        <div class="tc card rv"><span class="n">LAUNCH</span><b>pump.fun</b><p>Every coin is a normal pump.fun coin, created by a fresh coin wallet.</p></div>
+        <div class="tc card rv d1"><span class="n">SWAP</span><b>Jupiter</b><p>Creator fees are swapped into the coin's stock at the best live route.</p></div>
+        <div class="tc card rv d2"><span class="n">STOCKS</span><b>xStocks</b><p>Real stocks and ETFs, tokenized on Solana and backed one to one.</p></div>
+        <div class="tc card rv d3"><span class="n">PRIVACY</span><b>Umbra</b><p>Moves the stock privately: sender, receiver and amount sealed.</p></div>
+        <div class="tc card rv d4"><span class="n">COMPUTE</span><b>Arcium</b><p>The encrypted computer Umbra runs on, on Solana mainnet.</p></div>
+      </div>
+      <div class="ptable">
+        <div class="card priv rv"><h4>Sealed</h4><ul><li>Who sent the payment</li><li>Which wallet received it</li><li>How much of the stock moved</li><li>The account's private balance</li></ul></div>
+        <div class="card pub rv d1"><h4>Still public</h4><ul><li>That a payment happened</li><li>The coin and every trade on pump.fun</li><li>The coin wallet that created the coin</li><li>Fees swapped into the stock before they're sealed</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- stockz vs a normal launchpad -->
+  <section class="sec" id="vs">
+    <div class="wrap">
+      <div class="head2"><div><p class="ey">05 · The difference</p><h2 class="h2 split-words">Same coin. <em>Different ending.</em></h2></div></div>
+      <div class="vs" id="vsTable">
+        <div class="vs-row"><div></div><div>A normal launchpad</div><div>Stockz</div></div>
+        <div class="vs-row" style="transition-delay:.05s"><div>Who gets the fees</div><div>The dev</div><div><i class="ok">✓</i>Any account you choose</div></div>
+        <div class="vs-row" style="transition-delay:.12s"><div>Paid in</div><div>SOL</div><div><i class="ok">✓</i>Real stocks: NVDA, TSLA, SPY…</div></div>
+        <div class="vs-row" style="transition-delay:.19s"><div>Who can see it</div><div>Everyone, forever</div><div><i class="ok">✓</i>Only the account</div></div>
+        <div class="vs-row" style="transition-delay:.26s"><div>How it gets paid</div><div>The dev claims on a page</div><div><i class="ok">✓</i>Sent every hour</div></div>
+        <div class="vs-row" style="transition-delay:.33s"><div>Your wallet as creator</div><div>Public on the coin</div><div><i class="ok">✓</i>A fresh coin wallet instead</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- calculator -->
+  <section class="sec" id="calc">
+    <div class="wrap">
+      <div class="head2">
+        <div>
+          <p class="ey">06 · Calculator</p>
+          <h2 class="h2 split-words">What a coin <em>buys you.</em></h2>
+          <p class="sub rv">Set the coin's daily volume and pick a stock. Live prices, your numbers.</p>
+        </div>
+      </div>
+      <div class="calc">
+        <div class="calc-in card rv">
+          <div class="fld"><label for="cVol">Daily volume <output id="oVol" class="num"></output></label><input type="range" id="cVol" min="5" max="5000" step="5" value="400"></div>
+          <div class="fld"><label for="cFee">Creator fee <output id="oFee" class="num"></output></label><input type="range" id="cFee" min="0.05" max="1" step="0.05" value="0.3"></div>
+          <div class="fld"><span>Paid in</span><div class="picks" id="cPicks"></div></div>
+          <form class="field" id="cCoin" autocomplete="off" style="margin-top:-6px"><label class="sr" for="cCoinIn">A real coin's address</label><input id="cCoinIn" placeholder="Or paste a real coin's address" spellcheck="false" style="font-size:13px"><button class="btn o sm" type="submit">Use its volume</button></form>
+          <p class="fine" id="cCoinNote" style="margin:-10px 0 0;min-height:18px"></p>
+          <p class="fine">pump.fun sets the creator fee and it changes with a coin's market cap, so set the rate you expect. Volume is in SOL a day.</p>
+        </div>
+        <div class="calc-out card rv d1">
+          <div class="co-top">
+            <div><span>Fees a day</span><b class="num" id="cDay">—</b></div>
+            <div><span>Shares a day</span><b class="num g" id="cShares">—</b></div>
+            <div><span>After 30 days</span><b class="num" id="cMonth">—</b></div>
+          </div>
+          <canvas id="calcCv" aria-hidden="true"></canvas>
+          <p class="fine" id="cNote">An estimate at today's prices, before swap costs. Not a promise: fees follow trading.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- x-ray -->
+  <section class="sec alt" id="xray">
+    <div class="wrap">
+      <div class="head2">
+        <div>
+          <p class="ey">07 · Wallet X-ray</p>
+          <h2 class="h2 split-words">Every wallet is <em>an open book.</em></h2>
+          <p class="sub rv">Paste any Solana wallet and see the stocks anyone can read from it right now. Stockz pays where this view stays empty.</p>
+        </div>
+      </div>
+      <div class="xr">
+        <div class="xr-in card rv">
+          <form class="field" id="xrForm" autocomplete="off">
+            <label class="sr" for="xrIn">A Solana wallet address</label>
+            <input id="xrIn" placeholder="Any Solana wallet address" spellcheck="false">
+            <button class="btn g sm" type="submit">X-ray <span class="ar">→</span></button>
+          </form>
+          <div class="xr-err" id="xrErr" aria-live="polite"></div>
+          <div class="xr-or">or</div>
+          <button class="btn o" id="xrMe" type="button" style="width:100%">Connect and X-ray my wallet</button>
+          <p class="fine">Read only. Nothing to sign. The address never leaves this page except to read Solana.</p>
+        </div>
+        <div class="xr-out card rv d1" id="xrOut">
+          <div class="xr-empty"><canvas id="xrArt" aria-hidden="true"></canvas>Paste a wallet to see what it shows the world.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- launch teaser -->
+  <section class="sec" id="launch">
+    <div class="wrap">
+      <div class="head2">
+        <div>
+          <p class="ey">08 · Launch</p>
+          <h2 class="h2 split-words">Launch a coin for <em>any account.</em></h2>
+          <p class="sub rv">Fill it in and watch the coin build itself. Your draft stays in this browser until launches open.</p>
+        </div>
+      </div>
+      <div class="launch">
+        <form class="lform card rv" id="lForm" autocomplete="off">
+          <label>Wallet that gets paid<input class="inp mono" id="lTo" placeholder="Any Solana wallet address" spellcheck="false"></label>
+          <div class="fld" style="margin:0"><span>Paid in</span><div class="picks" id="lPicks"></div></div>
+          <div class="row2">
+            <label>Coin name<input class="inp" id="lName" maxlength="32" placeholder="Name"></label>
+            <label>Ticker<input class="inp" id="lTick" maxlength="10" placeholder="TICKER"></label>
+          </div>
+          <div class="sumbox" id="lSum"></div>
+          <a class="btn w" href="/app#launch" style="width:100%">Open the full launcher <span class="ar">→</span></a>
+        </form>
+        <div class="prev rv d1">
+          <div class="coin" id="coinCard"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- coins -->
+  <section class="sec alt" id="coins">
+    <div class="wrap">
+      <p class="ey">09 · Coins</p>
+      <h2 class="h2 split-words">Coins paying <em>stock accounts.</em></h2>
+      <div class="coins-empty card rv" style="margin-top:40px">
+        <canvas id="emptyArt" aria-hidden="true"></canvas>
+        <div><b>No coins yet.</b><p>Every coin launched on Stockz shows up here with its stock and what it has paid. The first one could be yours.</p><a class="btn g sm" href="/app#launch">Draft a launch <span class="ar">→</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- roadmap -->
+  <section class="sec" id="road">
+    <div class="wrap faq">
+      <div><p class="ey">10 · Roadmap</p><h2 class="h2 split-words">What's live, <em>what's next.</em></h2><p class="sub rv">No dates we can't keep. This is the order.</p></div>
+      <div class="road" id="roadList">
+        <i class="road-fill" id="roadFill"></i>
+        <div class="rm on rv"><span class="when">Live now</span><b>The tools</b><p>Live stock prices, the wallet X-ray, the calculator on real coins, and launch drafts with their coin card.</p></div>
+        <div class="rm rv"><span class="when">Next</span><b>Launches</b><p>Coins go live on pump.fun, each created by its own fresh coin wallet, each with its stock account and stock fixed for good.</p></div>
+        <div class="rm rv"><span class="when">Then</span><b>Hourly payouts</b><p>Creator fees swapped into the coin's stock every hour and sealed on the way with Umbra.</p></div>
+        <div class="rm rv"><span class="when">After that</span><b>More stocks</b><p>New stocks and ETFs as they're tokenized on Solana with enough liquidity to buy them cleanly.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section class="sec" id="faq">
+    <div class="wrap faq">
+      <div><p class="ey">11 · Questions</p><h2 class="h2 split-words">The short <em>answers.</em></h2></div>
+      <div class="rv">
+        <details><summary>What is a stock account?</summary><p>Any Solana wallet you launch a coin for. Its coin's creator fees buy one stock and pay it into that wallet's private balance.</p></details>
+        <details><summary>Who can I launch a coin for?</summary><p>Any Solana wallet: yours, a friend's, a creator's, a charity's. The wallet you paste is the one that gets paid, and it can't be changed after launch.</p></details>
+        <details><summary>Which stocks can it pay in?</summary><p>NVIDIA, Apple, Tesla, Microsoft, Alphabet, Amazon, Meta, Coinbase, the S&amp;P 500, the Nasdaq 100, gold and silver, as tokenized xStocks on Solana. You pick one per coin.</p></details>
+        <details><summary>What exactly is private?</summary><p>The payout moves through Umbra, which runs on Arcium. On Solana, the sender, the receiver and the amount are encrypted. The coin itself and its trades are public on pump.fun, like every coin.</p></details>
+        <details><summary>How does the account get the stock?</summary><p>It waits in that wallet's private balance on Umbra. Only that wallet can see it, keep it there or move it out.</p></details>
+        <details><summary>How often does it pay?</summary><p>Every hour, the coin's creator fees are swapped into its stock and sent. Small amounts wait for the next hour so network fees don't eat them.</p></details>
+        <details><summary>Is it live?</summary><p>Live today: stock prices, the calculator, the wallet X-ray and launch drafts. Next: launches, then payouts. Nothing on this site shows a coin until launches open.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- risks -->
+  <section class="sec alt" id="risks">
+    <div class="wrap">
+      <p class="ey">12 · Risks</p>
+      <h2 class="h2 split-words">Read this <em>before you launch.</em></h2>
+      <div class="risks" style="margin-top:40px">
+        <div class="rk card rv"><i></i><b>Payouts follow trading.</b><p>No trades, no fees, no stock. Most coins stop trading.</p></div>
+        <div class="rk card rv d1"><i></i><b>Stocks move.</b><p>The stock can fall after it's bought. Tokenized stocks can trade off the market price when liquidity is thin.</p></div>
+        <div class="rk card rv d2"><i></i><b>Not affiliated.</b><p>Stockz is independent. Not affiliated with Umbra, Arcium, xStocks, Jupiter or pump.fun. Not financial advice.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- final -->
+  <section class="final">
+    <canvas id="finalCv" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <canvas class="coin3d" id="coin3d" aria-hidden="true"></canvas>
+      <h2 class="h2 split-words">Pay anyone in stocks. <em>Privately.</em></h2>
+      <div class="cta"><a class="btn g lg mag" href="/app#launch">Launch a coin <span class="ar">→</span></a><a class="btn o lg mag" href="/docs">Read the docs</a></div>
+    </div>
+    <p class="legal">Stockz is an independent project. Stocks are tokenized xStocks on Solana; Stockz does not issue them. Private payouts run on Umbra and Arcium; Stockz is not affiliated with either. Nothing here is financial advice.</p>
+  </section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STOCKZ · docs</title>
+<meta name="description" content="How Stockz works: stock accounts, the stocks, private payouts on Umbra and Arcium, fees, live tools and the public API.">
+<meta name="theme-color" content="#070807">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/fav-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/fav-64.png">
+<link rel="apple-touch-icon" href="/img/fav-180.png">
+<meta property="og:title" content="STOCKZ">
+<meta property="og:image" content="https://usestockz.vercel.app/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://usestockz.vercel.app/img/og.jpg">
+<link rel="stylesheet" href="/css/stockz.css?v=1">
+<script type="module" src="/js/docs.js?v=1"></script>
+</head>
+<body class="docsb">
+<div id="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<aside class="side" id="side">
+  <a class="logo" href="/"><img src="/img/fav-64.png" alt="">Stockz</a>
+  <nav class="nav" aria-label="Site">
+    <a href="/" data-nav="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="/#stocks" data-nav="stocks"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="9" width="3" height="7" rx="1"/><rect x="11" y="5" width="3" height="11" rx="1"/><rect x="17" y="11" width="3" height="5" rx="1"/></svg>Stocks</a>
+    <a href="/app#launch" data-nav="launch"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></svg>Launch</a>
+    <a href="/#xray" data-nav="xray"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Wallet X-ray</a>
+    <a href="/#calc" data-nav="calc"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg>Calculator</a>
+    <a href="/app#coins" data-nav="coins"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="6"/><path d="M15.4 10.2A6 6 0 1 1 10.2 15.4"/></svg>Coins</a>
+    <a href="/#privacy" data-nav="privacy"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Privacy</a>
+    <a href="/docs" data-nav="docs"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>Docs</a>
+  </nav>
+  <div class="side-foot">
+    <span class="status"><i></i>pre-launch</span>
+    <div class="built">Private payouts on<b>Umbra · Arcium</b></div>
+  </div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<header class="top" id="top">
+  <button class="menu" id="menuBtn" aria-label="Open the menu"><span></span></button>
+  <div class="search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Search a stock or paste a wallet" autocomplete="off" spellcheck="false" aria-label="Search a stock or paste a wallet">
+    <kbd>/</kbd>
+    <div class="sres" id="qres" role="listbox"></div>
+  </div>
+  <div class="top-r">
+    <a class="pill" href="#ca" id="caPill"><img src="/img/fav-64.png" alt="">$STOCKZ</a>
+    <a class="btn g sm lnch mag" href="/app#launch">Launch</a>
+    <button class="btn o sm cw" id="connect" type="button">Connect wallet</button>
+  </div>
+</header>
+
+<main class="main page" id="main">
+  <div class="wrap docs">
+    <nav class="toc" id="toc" aria-label="On this page">
+      <a href="#overview">Overview</a><a href="#payout">How a payout works</a><a href="#accounts">Stock accounts</a><a href="#stocks">The stocks</a><a href="#privacy">Privacy</a><a href="#coinwallet">The coin wallet</a><a href="#fees">Fees and timing</a><a href="#tools">Live tools</a><a href="#api">Public API</a><a href="#status">What's live</a><a href="#risks">Risks</a>
+    </nav>
+    <article class="doc">
+      <section id="overview"><p class="ey2">01 · Overview</p><h2>Stockz docs</h2>
+        <p>Stockz is a private launchpad that pays any stock account. You launch a coin for any Solana wallet and pick a stock. Every hour, the coin's creator fees buy that stock and pay it into the wallet's private balance, encrypted on Solana.</p>
+        <p>Three ideas carry it: <b>anyone can be paid</b> (any wallet, chosen at launch), <b>fees become real stocks</b> (tokenized, backed one to one), and <b>nobody else sees the payout</b> (sender, receiver and amount sealed).</p></section>
+      <section id="payout"><p class="ey2">02 · How a payout works</p><h2>How a payout works</h2>
+        <table><thead><tr><th>Step</th><th>What happens</th></tr></thead><tbody>
+          <tr><td>1. Launch</td><td>A fresh coin wallet creates the coin on pump.fun with your name, ticker and image. The stock account and the stock are fixed for good.</td></tr>
+          <tr><td>2. Trades</td><td>Every buy and sell pays pump.fun's creator fee to the coin's creator: the coin wallet.</td></tr>
+          <tr><td>3. Swap</td><td>Every hour the engine claims those fees and swaps them into the coin's stock through Jupiter, at the live price.</td></tr>
+          <tr><td>4. Seal</td><td>The stock is sent through Umbra, which runs on Arcium. On Solana, the sender, the receiver and the amount are encrypted.</td></tr>
+          <tr><td>5. Hold</td><td>The stock waits in the stock account's private balance. Only that wallet can see it, keep it or move it out.</td></tr>
+        </tbody></table></section>
+      <section id="accounts"><p class="ey2">03 · Stock accounts</p><h2>Stock accounts</h2>
+        <p>A stock account is any Solana wallet you launch a coin for: your own, a friend's, a creator's or a charity's. One coin pays one account in one stock. Both are written into the launch and can't be changed afterwards, by you or by us.</p>
+        <div class="note"><b>i</b><p>The account opens its private balance in Umbra with the same wallet. Nothing is sent to an exchange or a custodian on the way.</p></div></section>
+      <section id="stocks"><p class="ey2">04 · The stocks</p><h2>The stocks</h2>
+        <p>Coins pay in xStocks: real stocks and ETFs tokenized on Solana by their issuer and backed one to one. Prices on this site come live from Jupiter. Check every mint yourself:</p>
+        <table><thead><tr><th>Token</th><th>Tracks</th><th>Mint</th></tr></thead><tbody><tr><td>NVDAx</td><td>NVIDIA</td><td><a href="https://solscan.io/token/Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh" target="_blank" rel="noopener"><code>Xsc9qv…mx9qEh</code></a></td></tr><tr><td>AAPLx</td><td>Apple</td><td><a href="https://solscan.io/token/XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp" target="_blank" rel="noopener"><code>XsbEhL…RLJzJp</code></a></td></tr><tr><td>TSLAx</td><td>Tesla</td><td><a href="https://solscan.io/token/XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB" target="_blank" rel="noopener"><code>XsDoVf…sJHzoB</code></a></td></tr><tr><td>MSFTx</td><td>Microsoft</td><td><a href="https://solscan.io/token/XspzcW1PRtgf6Wj92HCiZdjzKCyFekVD8P5Ueh3dRMX" target="_blank" rel="noopener"><code>XspzcW…h3dRMX</code></a></td></tr><tr><td>GOOGLx</td><td>Alphabet</td><td><a href="https://solscan.io/token/XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN" target="_blank" rel="noopener"><code>XsCPL9…LLq6aN</code></a></td></tr><tr><td>AMZNx</td><td>Amazon</td><td><a href="https://solscan.io/token/Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg" target="_blank" rel="noopener"><code>Xs3eBt…8LLZsg</code></a></td></tr><tr><td>METAx</td><td>Meta</td><td><a href="https://solscan.io/token/Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu" target="_blank" rel="noopener"><code>Xsa62P…PCo5Zu</code></a></td></tr><tr><td>COINx</td><td>Coinbase</td><td><a href="https://solscan.io/token/Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu" target="_blank" rel="noopener"><code>Xs7Zdz…tePxNu</code></a></td></tr><tr><td>SPYx</td><td>S&amp;P 500 ETF</td><td><a href="https://solscan.io/token/XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W" target="_blank" rel="noopener"><code>XsoCS1…BbDF2W</code></a></td></tr><tr><td>QQQx</td><td>Nasdaq 100 ETF</td><td><a href="https://solscan.io/token/Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ" target="_blank" rel="noopener"><code>Xs8S1u…WAmWHZ</code></a></td></tr><tr><td>GLDx</td><td>Gold ETF</td><td><a href="https://solscan.io/token/Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re" target="_blank" rel="noopener"><code>Xsv9hR…wtD3re</code></a></td></tr><tr><td>SLVx</td><td>Silver ETF</td><td><a href="https://solscan.io/token/XsxAd6okt8y1RRK6gNg7iJaqiWNiq5Md5EDf3ZrF2dm" target="_blank" rel="noopener"><code>XsxAd6…ZrF2dm</code></a></td></tr></tbody></table>
+        <p>When a stock's on-chain liquidity is under $5,000, its price can lag the market, and this site marks it <b>thin market</b>.</p></section>
+      <section id="privacy"><p class="ey2">05 · Privacy</p><h2>What stays private</h2>
+        <table><thead><tr><th>Sealed on Solana</th><th>Still public</th></tr></thead><tbody>
+          <tr><td>Who sent a payout</td><td>That a payment happened</td></tr>
+          <tr><td>Which wallet received it</td><td>The coin and every trade on pump.fun</td></tr>
+          <tr><td>How much stock moved</td><td>The coin wallet that created the coin</td></tr>
+          <tr><td>The account's private balance</td><td>Fees swapped into the stock before they're sealed</td></tr>
+        </tbody></table>
+        <p>Payouts run through <b>Umbra</b>, a privacy layer on Solana that has been open to everyone since March 2026. Umbra runs on <b>Arcium</b>, an encrypted computer on Solana mainnet. Stockz is independent of both.</p></section>
+      <section id="coinwallet"><p class="ey2">06 · The coin wallet</p><h2>The coin wallet</h2>
+        <p>Every coin gets its own fresh wallet. That wallet creates the coin, receives its creator fees and runs its payouts, so your wallet never appears as the coin's creator or dev. You fund the launch from your wallet in one payment.</p></section>
+      <section id="fees"><p class="ey2">07 · Fees and timing</p><h2>Fees and timing</h2>
+        <p>pump.fun sets the creator fee, and it changes with a coin's market cap. The swap into the stock pays Jupiter's route costs and Solana network fees. Payouts go out every hour; amounts too small to be worth a transaction wait for the next hour.</p></section>
+      <section id="tools"><p class="ey2">08 · Live tools</p><h2>Live tools</h2>
+        <p><b>Stock prices</b> come from Jupiter every minute. <b>Wallet X-ray</b> reads any wallet's public stock holdings straight from Solana, the view Stockz payouts keep empty. The <b>calculator</b> turns a coin's daily volume into shares at live prices. <b>Launch drafts</b> build the coin's card as you type and save it in your browser.</p></section>
+      <section id="api"><p class="ey2">09 · Public API</p><h2>Public API</h2>
+        <table><thead><tr><th>Route</th><th>Returns</th></tr></thead><tbody>
+          <tr><td><code>GET /api/prices</code></td><td>Every stock: price, 24h change, liquidity, market cap and the thin-market flag. Cached 30 seconds.</td></tr>
+          <tr><td><code>GET /api/xray?wallet=</code></td><td>A wallet's public tokenized-stock holdings and their value, plus its SOL.</td></tr>
+          <tr><td><code>GET /api/config</code></td><td>The $STOCKZ contract address once it's live.</td></tr>
+        </tbody></table></section>
+      <section id="status"><p class="ey2">10 · What's live</p><h2>What's live</h2>
+        <p>Live today: live stock prices, the wallet X-ray, the calculator and launch drafts. Next: launches, then hourly payouts. Nothing on this site shows a coin until launches open.</p></section>
+      <section id="risks"><p class="ey2">11 · Risks</p><h2>Risks</h2>
+        <ul><li><b>Payouts follow trading.</b> No trades, no fees, no stock.</li><li><b>Stocks move.</b> A stock can fall after it's bought, and tokenized stocks can trade away from the market price when liquidity is thin.</li><li><b>Software can fail.</b> The engine, pump.fun, Jupiter, Umbra and Arcium are all software.</li><li><b>Not affiliated.</b> Stockz is independent of Umbra, Arcium, xStocks, Jupiter and pump.fun.</li></ul>
+        <div class="note"><b>!</b><p>Nothing here is financial advice. Read the rules, check the chain, and only use what you can afford to lose.</p></div></section>
+    </article>
+  </div>
+</main>
+<div class="toast" id="toast" role="status"></div>
+</body>
+</html>

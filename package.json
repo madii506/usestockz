@@ -1,0 +1,6 @@
+{
+  "name": "stockz",
+  "private": true,
+  "description": "A private launchpad that pays any stock account.",
+  "engines": { "node": ">=20" }
+}
